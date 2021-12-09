@@ -19,7 +19,7 @@ class engine extends \core_search\engine {
 
     public function add_document($document, $fileindexing = false) {
         $doc = $document->export_for_engine();
-        $url = $this->config->server_hostname . ":" . $this->config->server_port . '/' . $this->config->indexname . '/'.$doc['id'];
+        $url = $this->config->server_hostname . ":" . $this->config->server_port . '/' . $this->config->indexname . '?provider_id=9fcc8636-4fbc-4fa9-983c-a38768d7d554';
 
         $jsondoc = json_encode($doc);
 
