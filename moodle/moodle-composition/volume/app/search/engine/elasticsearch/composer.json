@@ -1,0 +1,11 @@
+{
+    "description": "A plugin to use ElasticSearch as Moodle Global Search engine",
+    "type": "moodle-search",
+    "license": "GPLv3",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "elasticsearch"
+    }
+}

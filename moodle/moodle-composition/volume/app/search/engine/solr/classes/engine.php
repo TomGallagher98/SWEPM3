@@ -129,7 +129,6 @@ class engine extends \core_search\engine {
         }
     }
 
-    kur
     /**
      * Prepares a Solr query, applies filters and executes it returning its results.
      *
