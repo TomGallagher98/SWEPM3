@@ -1,0 +1,12 @@
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+sh: 1: /usr/sbin/sendmail: not found
+PHP Warning:  require(/bitnami/moodle/version.php): failed to open stream: No such file or directory in /bitnami/moodle/lib/classes/component.php on line 425
+PHP Fatal error:  require(): Failed opening required '/bitnami/moodle/version.php' (include_path='/bitnami/moodle/lib/pear:.:/opt/bitnami/php/lib/php') in /bitnami/moodle/lib/classes/component.php on line 425
