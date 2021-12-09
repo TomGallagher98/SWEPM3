@@ -1,1 +1,2 @@
-
+The two zipped folders should have their contents extracted into the images folder. 
+Uploading the two tar files was not possible as they were too large to be uploaded to github
