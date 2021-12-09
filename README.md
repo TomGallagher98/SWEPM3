@@ -354,7 +354,7 @@ $this->config->text: Text defined in the edit_form document
 ##### What this function returns 
 Any relevant changes made in the edit_form.php document 
 
-#Writing custom search engine 
+# Writing custom search engine 
 
  
 
