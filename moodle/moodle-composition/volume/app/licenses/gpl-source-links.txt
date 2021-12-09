@@ -1,1 +1,0 @@
-moodle-3.10.3,GPL2,https://github.com/moodle/moodle/archive/refs/tags/v3.10.3.tar.gz
