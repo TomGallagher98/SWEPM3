@@ -1,0 +1,4 @@
+Content of .gitignore:
+
+*.conf
+*.cache
