@@ -44,18 +44,16 @@ class block_testblock extends block_base {
      * @return stdClass contents of block
      */
   
-
-    
-    
     public function get_content() {
         if (isset($this->content)) {
             return $this->content;
         }
-
+        //Defines the object to be rendered and finds the renderer for the testblock 
         // $renderable = new block_recentlyaccessedcourses\output\main();
         $renderable = 'TEst';
         $renderer = $this->page->get_renderer('block_testblock');
 
+        //Defines renders the above parameters and displays the output
         $this->content = new stdClass();
         $this->content->text = $renderer->render($renderable);
         $this->content->footer = '';
