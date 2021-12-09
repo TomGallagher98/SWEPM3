@@ -1,4 +1,12 @@
 # Moodle Integration
+Moodle is a high customizable LMS (learning management system). 
+Our goal is to develop a search and block plugin for Moodle, that would:
+* push learning activity metadata to an endpoint (search plugin)
+* provide custom search in moodle (search plugin)
+* provide recommended learning activities view in moodle (block plugin)
+
+These services have previously been used for a proprietary system – we want to show that these are system agnostic and can be used by other e-learning systems. 
+
 ## Prerequisites
 * [Docker](https://www.docker.com/)
 * [Docker Compose v2](https://docs.docker.com/compose/cli-command/)
