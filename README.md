@@ -173,3 +173,329 @@ should be reachable at [http://localhost:8080.](http://localhost:8080.)
 ```
 docker compose -f ./moodle-composition/docker-compose.yml up
 ```
+# Recommended Learnings/ Block Implementation 
+Recommended_Learnings/block_recommended_learnings.php 
+```
+class block_recommended_learnings extends block_list { 
+    public function init() { 
+        $this->title = get_string('pluginname','block_recommended_learnings'); 
+    } 
+ ```
+ ```
+ class block_recommended_learnings extends block_list { 
+    }
+ ```
+##### Description 
+Creates a new block class extending the pre-defined list class, meaning our data will be displayed in a list format. (This is not the intended final block type, however was the furthest working implementation.) 
+##### Parameters
+block_recommended_learnings: The new block class being created 
+block list: The already existing block being extended 
+##### What the function returns 
+A basic list based block 
+
+&nbsp;
+```
+public function init() { }
+```
+##### Description 
+The init() function is implemented for all blocks and defines values for the title object. 
+##### Parameters 
+Public Function: A function that can be accessed anywhere with no restrictions 
+
+&nbsp;
+```
+$this->title 
+```
+##### Description 
+Defines the title of the current block 
+##### Parameters
+$this: refers to the current object in the block 
+->: refers to a property of the current objects 
+##### What this function returns 
+A property of an object within the current block
+
+&nbsp;
+```	
+Get_string('pluginname','block_recommended_learnings'); 
+```
+##### Description
+Returns a string stored inside the lang/en directory. 
+##### Parameters
+title: The title of the block 
+‘pluginname’: The link to the language folder, within the language folder there is a corresponding string that is called and displayed whenever this link is used within a get_string command 
+'block_recommended_learnings': The name of the file in which the strings are stored 
+##### What the functions return 
+A pre-defined  string value 
+
+&nbsp;
+```	
+public function get_content(){ 
+        if ($this->content !== null) { 
+            return $this->content; 
+        } 
+  
+        global $DB; 
+
+        $this->content = new stdClass; 
+        $this->content->items[] = get_string('pluginname', 'block_recommended_learnings'); 
+```
+```
+public function get_content(){ }
+```
+##### Description
+A function for retrieving and displaying content for the block. 
+
+&nbsp;
+```
+        if ($this->content !== null) { 
+            return $this->content; 
+        } 
+```
+##### Description
+Checks if there is already content defined in the current block 
+##### Parameters
+$this->content: refers to the current object in the block 
+##### What this function returns
+If the content object is not null then the current content is processed and returned. 
+
+&nbsp;
+```
+lobal $DB; 
+```
+##### Description
+Instance of the global moodle_database class 
+##### What this returns
+The DB class will be used to access records later in the function.  
+
+&nbsp;
+```
+        $this->content = new stdClass; 
+        $this->content->items[] = get_string('pluginname', 'block_recommended_learnings'); 
+```
+##### Description
+Creates a new Standard Moodle Class 
+Within this new class creates a list object and stores a string as the first variable 
+##### Parameters
+stdClass: Standard Moodle Class a plain object with no pre-existing class formatting 
+items[]: An list object within the content object 
+##### What this code returns
+This function does not return anything, it stores items in a list for later use. 
+
+&nbsp;
+```
+//Returns current categories in course database, these will be used to match recommendations 
+        $courses = get_courses(); 
+        foreach ($courses as $id=>$course) { 
+            $category = $DB->get_record ('course_categories', array('id'=>$course->category)); 
+            $course->categoryName = $category->name; 
+            $allcourses[$id] = $course; 
+        } 
+```
+##### Description 
+Finds the users active courses (get_courses) 
+For every course returns the record from the course categories table 
+Defines the Category name of the course 
+Stores the course in a list by their id 
+##### Parameters
+$courses: the users active courses 
+$id=>$course:  
+  
+&nbsp;
+```
+$category = $DB->get_record ('course_categories', array('id'=>$course->category)); 
+```
+##### Description 
+Queries the records of course from the course categories table 
+##### Parameters
+course_categories: the course categories table 
+array(…):the conditions of the sql search 
+##### What this function returns
+Returns a database record as an object if all conditions are met 
+
+&nbsp;
+```
+        foreach ($allcourses as $id=>$course) { 
+            $this->content->items[] = html_writer::tag('a', 
+$course->categoryName, array('href' => '/blocks/testblock/some_file.php')); 
+return $this->content; 
+```
+##### Description
+Adds elements to the items list depending on the elements of the all courses list 
+##### Parameters
+$allcourses: The list created in the previous code segment containing the list of users courses 
+html_writer: creates a hyperlink with certain, setting the text of the link to the category name of the current item in the allcourses list 
+##### What this function returns 
+Returns the list within the content object. 
+As the block is from a block_list the list is unpacked and each item is displayed on a new line. 
+
+&nbsp;
+```
+public function specialization() { 
+        if (isset($this->config)) { 
+            if (empty($this->config->title)) { 
+                $this->title = get_string('defaulttitle', 'block_recommended_learnings'); 
+            } else { 
+                $this->title = $this->config->title; 
+            } 
+
+            if (empty($this->config->text)) { 
+                $this->config->text = get_string('defaulttext', 'block_recommended_learnings'); 
+            } 
+        } 
+    } 
+```
+##### Description
+Allows for block to have its own configuration separate. 
+Specialization is called directly after the init() function and changes the default                 
+$this->title/$this->text to a title/text which has been edited in an edit_form.php document. 
+##### Parameters 
+$this->config->title: Title defined in the edit_form document 
+$this->config->text: Text defined in the edit_form document 
+##### What this function returns 
+Any relevant changes made in the edit_form.php document 
+
+# Test Block
+```
+    public function get_content() { 
+        if (isset($this->content)) { 
+            return $this->content; 
+        } 
+
+        // $renderable = new block_recentlyaccessedcourses\output\main(); 
+        $renderable = 'TEst';        
+```
+###### Description
+This was an attempt to add a card structure to the block using a renderer file and mustache templates. 
+##### Parameters
+$renderable: The content which needed to be rendered. 
+$renderer: The page containing the rendering functions 
+
+&nbsp;
+```
+$renderer = $this->page->get_renderer('block_testblock'); 
+```
+##### Description 
+Intended to find and retrieve the document with code for rendering within the testblock block. 
+##### Parameters 
+‘block_testblock’: the rendering function to be retrieved by the function 
+##### What this function returns 
+This function was expected to return the renderer for block_testblock, however was unable to locate the renderer. 
+
+&nbsp;
+```
+$this->content = new stdClass(); 
+        $this->content->text = $renderer->render($renderable); 
+        $this->content->footer = ''; 
+
+        return $this->content; 
+```
+##### Description
+Intended to call the render function using the predefined renderer and render the sample ’TEst’ text. 
+##### Parameters 
+$this->content->text: The text to be displayed within the content object. 
+render($renderable): The final rendered object 
+##### What this function returns 
+This function was intended to return the sample text after it had been rendered. 
+However it returns an error message, ‘request for an unknown renderer block_testblock 
+
+&nbsp;
+```
+class block_testblock_renderer extends plugin_renderer_base { 
+
+    /** 
+     * Return the main content for the Recently accessed courses block. 
+     * 
+     * @param main $main The main renderable 
+     * @return string HTML string 
+     */ 
+    public function render_testblock($data) { 
+        // return $this->render_from_template('block_testblock/main', $main->export_for_template($this)); 
+
+        return $this->content->$data; 
+```
+##### Description 
+Basic renderer code with no changes made to content.  
+##### Parameters
+block_testblock_renderer: Renderer for the block_testblock 
+plugin_renderer_base: The basic renderer class 
+$data: Data inputted to be rendered 
+##### This function returns 
+The aim was to produce a simple unchanged string and then build upon the base code. 
+However the renderer did not produce any working output  
+
+# Custom activity module – „Learning activity” implementation 
+access.php  
+```
+$capabilities = array( 
+    'mod/learningactivity:view' => array( 
+        'captype'      => 'read', 
+        'contextlevel' => CONTEXT_MODULE, 
+        'archetypes'   => array( 
+            "student" => CAP_ALLOW, 
+            "teacher" => CAP_ALLOW, 
+            "editingteacher" => CAP_ALLOW 
+        ) 
+    ) 
+) 
+```
+##### Description
+Creates an array where the capabilities of each role for each event are defined. A contextlevel is given in order to apply the capabilities to a certain level. The captype defines if the capabilities should apply to reading the activity module e.g. viewing it or writing to the activity module e.g. editing it. 
+
+&nbsp;
+Index.php 
+```
+require_once('../../config.php'); 
+
+$id = required_param('id', PARAM_INT); // Course ID 
+
+// Ensure that the course specified is valid 
+if (!$course = $DB->get_record('course', array('id'=> $id))) { 
+    print_error('Course ID is incorrect'); 
+} 
+```
+##### Description
+Gets the id of the course where the activity module is located at. By looking into the moodle DB it can make sure that the course where the activity module is located actually exists. 
+
+&nbsp;
+```
+require_once('../../config.php'); 
+```
+##### Description
+Make sure that config.php is included at least once 
+
+&nbsp;
+```
+$id = required_param('id', PARAM_INT); // Course ID 
+```
+##### Description
+Gets the id of the course where the activity module is located at. 
+
+&nbsp;
+```
+$DB->get_record('course', array('id'=> $id))) 
+```
+##### Description 
+Gets a record from the database where the id of the activity module is listed in the course 
+
+&nbsp;
+version.php 
+```
+defined('MOODLE_INTERNAL') || die(); 
+
+$plugin->version = 2021120800; 
+$plugin->requires = 2020110903; 
+$plugin->component = 'mod_learningactivity'; 
+$plugin->release = "v3.10-r1" 
+
+$plugin->dependencies = [ 
+]; 
+```
+##### Description 
+Defines what version of the activity module it is, what version of moodle is required for it to run, how the component is called, and what release it is by defining moodle internal variables intended for use with plugins. Dependencies are also defined in the same way. 
+
+&nbsp;
+```
+defined('MOODLE_INTERNAL') || die(); 
+```
+##### Description 
+Makes sure that the internal variables of moodle are defined, otherwise don’t execute the code. 
