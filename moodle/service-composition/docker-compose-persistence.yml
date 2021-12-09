@@ -1,0 +1,45 @@
+version: "3.8"
+services :
+  database:
+    image: postgres:14.0-alpine
+    ports:
+      - "2432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dds_db
+    volumes:
+      - database-volume:/var/lib/postgresql/data    # Windows
+      #- ./volume/postgres:/var/lib/postgresql/data  # Linux/macOS
+  
+  # Optional: Web-based administration UI for the database
+  admin:
+    image: adminer:4.8.1
+    depends_on:
+      - database
+    ports:
+      - 2080:8080
+    environment:
+      ADMINER_DESIGN: pepa-linha
+
+  elastic:
+    image: elasticsearch:7.6.2
+    environment:
+      - node.name=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./volume/elasticsearch:/usr/share/elasticsearch/data
+
+# Windows only
+volumes:
+  database-volume:
+    external: true

@@ -1,0 +1,24 @@
+version: "3.8"
+services :
+  dds:
+    image: data-distribution-service:latest
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+      POSTGRES_DB_Name: dds_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5003:5003
+    depends_on:
+      - database
+
+  search:
+    image: search-service:latest
+    environment:
+      ELASTICSEARCH_URL: http://elastic:9200
+      ELASTICSEARCH_INDEX: learning-objects-dev
+    ports:
+      - 5002:5002
+    depends_on:
+      - elastic
